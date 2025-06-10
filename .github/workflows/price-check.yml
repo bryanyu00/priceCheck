@@ -36,13 +36,10 @@ jobs:
           }' > price_config.json
           
       - name: Run price tracker
-        run: python price_tracker.py --once
+        id: price_check
         env:
           PRODUCT_URLS: ${{ secrets.PRODUCT_URLS }}
           PRODUCT_NAME: ${{ secrets.PRODUCT_NAME }}
-
-      - name: Run price tracker
-        id: price_check
         run: |
           python price_tracker.py --once
           if grep -q "Price drop detected\|Price increased" price_tracker.log; then
