@@ -40,3 +40,23 @@ jobs:
         env:
           PRODUCT_URLS: ${{ secrets.PRODUCT_URLS }}
           PRODUCT_NAME: ${{ secrets.PRODUCT_NAME }}
+
+      - name: Run price tracker
+        id: price_check
+        run: |
+          python price_tracker.py --once
+          if grep -q "Price drop detected\|Price increased" price_tracker.log; then
+            echo "price_changed=true" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Update last price variable
+        if: steps.price_check.outputs.price_changed == 'true'
+        run: |
+          current_price=$(cat price_config.json | jq -r '.price.last_price')
+          curl -X PATCH \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: token ${{ secrets.PAT }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ github.repository }}/actions/variables/LAST_PRICE \
+            -d "{\"name\":\"LAST_PRICE\",\"value\":\"${current_price}\"}"
+        shell: bash
