@@ -17,16 +17,10 @@ logging.basicConfig(
 
 # Configuration
 CONFIG_FILE = 'price_config.json'
-PRODUCT_NAME = "Sony Xperia 1 VI"
 
-# URLs to check (in order of priority)
-URLS = [
-    "https://store.sony.com.sg/products/xperia-1m6/?locale=en",  # Sony Store
-    # "https://www.sony.com.sg/smartphones/products/xperia-1m6",   # Sony Product Page
-    # URL = "https://www.sony.com.sg/electronics/smartphones/xperia-1m6"  # Sony Singapore URL for Xperia 1 VI
-    # URL = "https://store.sony.com.sg/products/xperia-1m6/?locale=en&variant=44772202250395"  # Sony Singapore URL for Xperia 1 VI
-    # "https://store.sony.com.sg/products/xperia-1m6/"  # Sony Singapore URL for Xperia 1 VI
-]
+# Get URLs from environment variable or use default
+URLS = os.environ.get('PRODUCT_URLS', 'https://www.apple.com/shop/buy-iphone/iphone-16-pro').split(',')
+PRODUCT_NAME = os.environ.get('PRODUCT_NAME', 'iPhone 16 Pro')
 
 CHECK_INTERVAL = 6 * 60 * 60  # Check every 6 hours by default
 
