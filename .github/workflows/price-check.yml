@@ -1,7 +1,7 @@
 name: Check and Alert Prices of Your desired product
 on:
   schedule:
-    - cron: '*/30 * * * *'  # Run every 30mins
+    - cron: '0 */6 * * *'  # Run every 6 hours
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
