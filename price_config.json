@@ -1,0 +1,16 @@
+
+{
+    "_comment": "THIS IS AN EXAMPLE WITH PLACEHOLDERS",
+    "email": {
+        "sender_email": "youremail",
+        "sender_name": "emailname",
+        "api_key": "whicheverAPIused",
+        "recipient_email": "sender_email"
+    },
+    "price": {
+        "last_price": 1399.0,
+        "last_checked": "2025-06-10T12:57:01.134489",
+        "original_price": 1989.0
+    },
+    "check_interval": 21600
+}
