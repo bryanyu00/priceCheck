@@ -1,17 +1,41 @@
 im using github here for the first time, not sure what to do - hopefully the instructions make sense 
 
-purpose: to check a product page's website, see its prices, then sends an email to alert me when the price drops. 
+# Price Tracker
 
-but i believe if you want to run the code, you can download it, put both files in the same directory:
-1) edit the json file with your sender_email, sender_name, api_key, receipient_email [i'm using the email service called Brevo - as it works for me here to send an email through that service]
-2) if you want, you can edit the "last_price" in the json file to an amount you want to start with
-3) if you want, you can change the "check_interval" in the json file too, to an interval you prefer, now it's 6 hours
+## Purpose
+Automatically monitors a product's price on a website and sends email notifications when the price drops.
 
-4) in the main py file, you could edit the product link of which you want to price watch from
+## Setup Instructions
 
-5) what works for me is in the cmd terminal, with all the necessary library installed, i just ran: python3 price_tracker.py --once
+1. **Install required libraries**: pip install requests==2.31.0 beautifulsoup4==4.12.2
 
 
-remember to install these necessary libraries:
-1) requests==2.31.0
-2) beautifulsoup4==4.12.2
+2. **Configure the tracker**:
+   - Place both `price_tracker.py` and [price_config.json] in the same directory
+   - Edit [price_config.json] with your details:
+     ```json
+     {
+       "email": {
+         "sender_email": "your_email@example.com",
+         "sender_name": "Your Preferred Name",
+         "api_key": "your_brevo_api_key",
+         "recipient_email": "email_to_receive_alerts@example.com"
+       }
+     }
+     ```
+   - [Create a free Brevo account](https://www.brevo.com/free/) to get your API key
+   - Optionally adjust `last_price` to set your starting price point
+   - Optionally change `check_interval` (in seconds) - default is 6 hours
+
+3. **Customize product**:
+   - In `price_tracker.py`, edit the URLs list to monitor your desired product
+
+4. **Run the tracker**:
+   - For a one-time check: `python price_tracker.py --once`
+   - For continuous monitoring: `python price_tracker.py`
+
+## Features
+- Tracks price changes over time
+- Sends email notifications only when price drops
+- Compares current price to both previous price and original price
+- Configurable check intervals
