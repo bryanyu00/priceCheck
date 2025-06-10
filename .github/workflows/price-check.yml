@@ -23,7 +23,7 @@ jobs:
           echo '{
             "email": {
               "sender_email": "${{ secrets.SENDER_EMAIL }}",
-              "sender_name": "Price Tracker",
+              "sender_name": "${{ secrets.SENDER_NAME || 'Price Tracker' }}",
               "api_key": "${{ secrets.BREVO_API_KEY }}",
               "recipient_email": "${{ secrets.RECIPIENT_EMAIL }}"
             },
