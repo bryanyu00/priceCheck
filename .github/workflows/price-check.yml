@@ -1,0 +1,39 @@
+name: Check Sony Xperia Price
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Run every 6 hours
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  check-price:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+          
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+        
+      - name: Create config file
+        run: |
+          echo '{
+            "email": {
+              "sender_email": "${{ secrets.SENDER_EMAIL }}",
+              "sender_name": "Price Tracker",
+              "api_key": "${{ secrets.BREVO_API_KEY }}",
+              "recipient_email": "${{ secrets.RECIPIENT_EMAIL }}"
+            },
+            "price": {
+              "last_price": ${{ vars.LAST_PRICE || 1399.0 }},
+              "last_checked": null,
+              "original_price": 1989.0
+            },
+            "check_interval": 21600
+          }' > price_config.json
+          
+      - name: Run price tracker
+        run: python price_tracker.py --once
